@@ -1,6 +1,7 @@
 import React from 'react';
 import { Bar, Line, Pie, Doughnut, Radar, Polar } from 'react-chartjs-2';
 import { Row, Col, Icon, Card } from 'react-materialize';
+import GithubSkills from '../profile/github-skills';
 
 import JobStatus from './jobstatus';
 import Applications from './applications';
@@ -15,6 +16,29 @@ const Analytics = (props) => {
     charts =
     (<div>
       <Row>
+       <Col m={6} s={6}>
+         <Card>
+           <JobStatus savedJobs={props.savedJobs} />
+         </Card>
+       </Col>
+       <Col m={6} s={6}>
+         <Card>
+           <Applications savedJobs={props.savedJobs} />
+         </Card>
+       </Col>
+      </Row>
+      <Row>
+      <Col m={6} s={6} offset="s3 m3">
+        <Card>
+          <GithubSkills githubSkills={props.githubSkills} />
+        </Card>
+      </Col>
+      </Row>
+     </div>);
+  } else if (hasJobAnalytics) {
+    charts =
+     (<div>
+       <Row>
         <Col m={6} s={6}>
           <Card>
             <JobStatus savedJobs={props.savedJobs} />
@@ -25,29 +49,6 @@ const Analytics = (props) => {
             <Applications savedJobs={props.savedJobs} />
           </Card>
         </Col>
-      </Row>
-      <Row>
-        <Col m={6} s={6} offset="s3 m3">
-          <Card>
-            <GithubSkills githubSkills={props.githubSkills} />
-          </Card>
-        </Col>
-      </Row>
-     </div>);
-  } else if (hasJobAnalytics) {
-    charts =
-     (<div>
-       <Row>
-         <Col m={6} s={6}>
-           <Card>
-             <JobStatus savedJobs={props.savedJobs} />
-           </Card>
-         </Col>
-         <Col m={6} s={6}>
-           <Card>
-             <Applications savedJobs={props.savedJobs} />
-           </Card>
-         </Col>
        </Row>
       </div>);
   } else if (hasGithubAnalytics) {
