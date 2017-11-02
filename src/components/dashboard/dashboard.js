@@ -1,8 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { Icon, Input, Button, Col, Row, Modal, Table, Dropdown } from 'react-materialize';
+import { Icon, Input, Button, Col, Row, Modal, Table, Dropdown, Card } from 'react-materialize';
 import $ from 'jquery';
+import ReactTooltip from 'react-tooltip';
 
 import Error from './errorBanner';
 import SavedJobs from './SavedJobs';
@@ -137,7 +138,7 @@ class Dashboard extends React.Component {
           </Col>
         </Row>
       </div>
-    )
+    );
     const jobList = (
       <div>
         <Row>
@@ -177,7 +178,7 @@ class Dashboard extends React.Component {
       <div>
         <Row>
           <Col s={3}>
-            <h5>Job Applications</h5>
+            {this.props.savedJobs.length > 0 ? <h5>Job Applications</h5> : null}
           </Col>
           <Col s={8} />
           <Col s={1}>
@@ -186,9 +187,11 @@ class Dashboard extends React.Component {
               trigger={<Button
                 id="add"
                 floating
+                medium
                 className="red"
                 waves="light"
                 icon="add"
+                data-tip="Add Job"
               />}
               actions={
                 <div>
@@ -219,6 +222,7 @@ class Dashboard extends React.Component {
           </Col>
         </Row>
         {this.props.savedJobs.length > 0 ? jobList : emptyTable}
+        <ReactTooltip />
       </div>);
   }
 }
