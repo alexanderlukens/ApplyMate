@@ -107,7 +107,7 @@ class Dashboard extends React.Component {
     const sortedByStatus = [].concat(filteredJobs).sort((a, b) =>
       a.status < b.status).map(this.createJobs);
     const sortedByDate = [].concat(filteredJobs).sort((a, b) => {
-      return a.dateApplied > b.dateApplied;
+      return (Date.parse(a.dateApplied) || 0) > (Date.parse(b.dateApplied) || 0);
     }).reverse().map(this.createJobs);
     const sortedByFavorite = [].concat(filteredJobs).sort((a, b) => {
       if (a.favorite) {
@@ -156,6 +156,7 @@ class Dashboard extends React.Component {
         <Table className="dashboard">
           <thead>
             <tr>
+              <th />
               <th>Company</th>
               <th>Job Title</th>
               <th>Status</th>
@@ -163,7 +164,6 @@ class Dashboard extends React.Component {
               <th>Location</th>
               <th>Job Posting URL</th>
               <th>Required Skills</th>
-              <th>Favorite</th>
               <th />
             </tr>
           </thead>

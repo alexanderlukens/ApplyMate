@@ -168,6 +168,7 @@ class Profile extends React.Component {
     } else if (this.props.githubUsername) {
       displayName = this.props.githubUsername;
     }
+
     const emailReminderRadioButtons = (this.state.emailReminder === true) ? (
       <label htmlFor="emailReminder">
         <Input label="On" type="radio" name="emailReminder" value="true" defaultChecked="checked" onClick={this.onChangeEmailReminder} />
@@ -178,6 +179,7 @@ class Profile extends React.Component {
           <Input label="Off" type="radio" name="emailReminder" value="false" defaultChecked="checked" onClick={this.onChangeEmailReminder} />
         </label>
     );
+
     const textReminderRadioButtons = (this.state.textReminder === true) ? (
       <label htmlFor="emailReminder">
         <Input label="On" type="radio" name="emailReminder" value="true" defaultChecked="checked" onClick={this.onChangeEmailReminder} />
@@ -193,7 +195,7 @@ class Profile extends React.Component {
         <Card>
           <ProfileNav />
           <h5>Hello, {displayName}!</h5>
-          {displayName ? <p className="profile-github-handle">Github Username: {displayName}</p> : ''}
+          {this.props.githubUsername ? <p className="profile-github-handle">Github Username: {this.props.githubUsername}</p> : ''}
           <br />
           <br />
           <strong>Update Your Info</strong><br />
@@ -201,27 +203,31 @@ class Profile extends React.Component {
             <Row>
               <Col s={6}>
                 <label htmlFor="firstName">
+                  First Name:
                   <input type="text" name="firstName" placeholder={this.state.firstName} onChange={this.onChangeFirstName} />
                 </label>
               </Col>
               <Col s={6}>
                 <label htmlFor="lastName">
+                  Last Name:
                   <input type="text" name="lastName" placeholder={this.state.lastName} onChange={this.onChangeLastName} />
                 </label>
               </Col>
               <Col s={6}>
                 <label htmlFor="email">
+                  Email:
                   <input type="email" name="email" placeholder={this.state.email} onChange={this.onChangeEmail} />
                 </label>
               </Col>
               <Col s={6}>
                 <label htmlFor="phoneNumber">
+                  Phone:
                   <input type="text" name="phoneNumber" placeholder={this.state.phoneNumber} onChange={this.onChangePhoneNumber} />
                 </label>
               </Col>
               <Col s={6}>
                 {this.props.verifiedEmail ? <div > Interview E-Mail Reminder: <br /> {emailReminderRadioButtons} </div> :
-                <Button onClick={this.sendEmailVerification}>Click Here to Verify Your Email
+                <Button type="button" onClick={this.sendEmailVerification}>Click Here to Verify Your Email
                 </Button>}
               </Col>
               <Col s={6}>

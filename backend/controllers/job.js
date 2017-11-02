@@ -18,8 +18,12 @@ const x = Xray();
 
 
 const extractSkills = (data) => {
-  const text = data.join(' ');
-  return extract.extractSkills(text);
+  if (data) {
+    const text = data.join(' ');
+    return extract.extractSkills(text);
+  } else {
+    return [];
+  }
 };
 
 const addJobSkillsToDB = (skills, req, res) => {
@@ -143,7 +147,6 @@ exports.handleGetJob = (req, res) => {
 };
 
 exports.handleEditJob = (req, res) => {
-  console.log('req',req.body.status);
   SavedJobs.update({
     company: req.body.company,
     jobTitle: req.body.jobTitle,
@@ -174,6 +177,7 @@ exports.handleEditJob = (req, res) => {
 };
 
 exports.handleJobDelete = (req, res) => {
+  console.log('jobid', req.body.jobId);
   SavedJobs.update({
     deleted: true,
   }, {
@@ -207,11 +211,4 @@ exports.updateScreenshot = async (req, res) => {
   });
   const picture = await websiteChecker.takePicture(jobUrl.url, true, jobId);
   res.send('updated screenshot');
-  // SavedJobs.update({
-  //   favorite: req.body.favoriteStatus,
-  // }, {
-  //   where: {
-  //     jobId: req.body.jobId,
-  //   },
-  // })
 };
