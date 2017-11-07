@@ -9,7 +9,7 @@ const extract = require('../utilities/extractSkills.js');
 const big5Scraper = require('../utilities/big5scraper.js');
 const iFrameScraper = require('../utilities/iframeScraper.js');
 const websiteChecker = require('../utilities/websiteChecker.js');
-const isUp = require('is-Up');
+const isUp = require('is-up');
 
 
 const Op = Sequelize.Op;
