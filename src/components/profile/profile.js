@@ -5,7 +5,6 @@ import PDF from 'react-pdf-js';
 import PropTypes from 'prop-types';
 import { Row, Col, Card, Button, Input } from 'react-materialize';
 
-import GithubSkills from './github-skills';
 import Resume from './resume';
 import ProfileNav from './profile-nav';
 
@@ -16,8 +15,6 @@ class Profile extends React.Component {
       firstName: this.props.userFirstName || '',
       lastName: this.props.userLastName || '',
       email: this.props.userEmail || '',
-      password1: '',
-      password2: '',
       emailReminder: this.props.emailReminder,
       phoneNumber: this.props.phoneNumber || null,
       textReminder: this.props.phoneReminder,
@@ -27,10 +24,6 @@ class Profile extends React.Component {
     this.onChangeFirstName = this.onChangeFirstName.bind(this);
     this.onChangeLastName = this.onChangeLastName.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
-    this.onChangePassword1 = this.onChangePassword1.bind(this);
-    this.onChangePassword2 = this.onChangePassword2.bind(this);
-    this.handlePasswordSubmit = this.handlePasswordSubmit.bind(this);
-    this.updatePassword = this.updatePassword.bind(this);
     this.onChangeEmailReminder = this.onChangeEmailReminder.bind(this);
     this.sendEmailVerification = this.sendEmailVerification.bind(this);
     this.onChangePhoneNumber = this.onChangePhoneNumber.bind(this);
@@ -62,14 +55,6 @@ class Profile extends React.Component {
 
   onChangeEmail(e) {
     this.setState({ email: e.target.value });
-  }
-
-  onChangePassword1(e) {
-    this.setState({ password1: e.target.value });
-  }
-
-  onChangePassword2(e) {
-    this.setState({ password2: e.target.value });
   }
 
   onChangeEmailReminder(e) {
@@ -147,18 +132,6 @@ class Profile extends React.Component {
       });
   }
 
-  handlePasswordSubmit(e) {
-    e.preventDefault();
-    if (this.state.password1 === this.state.password2) {
-      this.updatePassword();
-    } else alert('Passwords do not match');
-  }
-
-  updatePassword() {
-    firebase.auth().currentUser.updatePassword(this.state.password1)
-      .catch(err => alert(err));
-  }
-
   render() {
     let displayName = 'Stranger';
     if (this.props.userFirstName && this.props.userLastName) {
@@ -232,19 +205,10 @@ class Profile extends React.Component {
               </Col>
               <Col s={6}>
                 {this.props.phoneNumber ? <div > Interview Text Reminder: <br /> {textReminderRadioButtons} </div> :
-                <div className="centerText" > Enter your phone number above, then refresh the page to enable text notifications.</div>}
+                <div className="centerText" >  Add your number and submit to enable text notifications!</div>}
               </Col>
             </Row>
             <Button type="submit">Submit</Button>
-          </form>
-          <br />
-          <strong>Change Password</strong>
-          <form name="changePassword" onSubmit={this.handlePasswordSubmit}>
-            <Row>
-              <Input s={6} label="New Password:" type="password" onChange={this.onChangePassword1} />
-              <Input s={6} label="Verify Password:" type="password" onChange={this.onChangePassword2} />
-            </Row>
-            <Button type="submit">Change Password</Button>
           </form>
           <br />
         </Card>

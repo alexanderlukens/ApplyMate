@@ -35,9 +35,19 @@
 .btn-space {
   padding-left: 8px;
 }
+
 .btn-floating {
   margin-top: 10px;
 }
+
+.delete {
+  background-color: #dd2c00;
+}
+
+.delete:hover {
+  background-color: red;
+}
+
 .icon-button, .favorite {
   padding: 2px 10px 2px 10px;
 }
@@ -46,6 +56,17 @@
 .brand-logo-signup {
   font-size: xx-large;
   color: hotpink;
+}
+
+.blinking-cursor-signup {
+  font-weight: 300;
+  font-size: 34px;
+  color: hotpink;
+  -webkit-animation: 1s blink step-end infinite;
+  -moz-animation: 1s blink step-end infinite;
+  -ms-animation: 1s blink step-end infinite;
+  -o-animation: 1s blink step-end infinite;
+  animation: 1s blink step-end infinite;
 }
 
 .bg {
@@ -57,6 +78,27 @@
   background-size: cover;
 }
 
+/*.bg-job {
+  background-color: #E2C2C3;
+  background: url(https://static.pexels.com/photos/399161/pexels-photo-399161.jpeg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  margin-top: -15px;
+  margin-bottom: -20px;
+}*/
+
+.parallax-container {
+  height: 200px;
+  margin-bottom: -20px;
+}
+
+.parallax img {
+  width: 100%;
+
+}
+
 .sign-up, .sign-in {
  width:800px;
  margin: auto;
@@ -66,6 +108,7 @@
 .tab .active {
   text-decoration: underline;
 }
+
 /* The alert message box */
 .alert, .error {
     padding: 20px;
@@ -74,11 +117,11 @@
 }
 
 .alert {
-    background-color: green; /* Red */
+    background-color: #26a69a; /* Red */
 }
 
 .error {
-  background-color: #f44336;
+  background-color: rgba(222,80,55,1);
 }
 
 /* dashboard table */
@@ -105,7 +148,6 @@ table .dashboard, .dashboard th, .dashboard td {
     text-overflow: ellipsis;
 }
 
-
 /* saved-job-posting on dashboard */
 .saved-job-posting:hover {
   background-color: #D3D3D3;
@@ -114,6 +156,7 @@ table .dashboard, .dashboard th, .dashboard td {
 #refresh {
   cursor: pointer;
 }
+
 /* job-search-form */
 .job-search-form input[type="text"], .job-add-form input[type="date"], .job-edit-form select {
   padding: 8px;
@@ -122,6 +165,7 @@ table .dashboard, .dashboard th, .dashboard td {
 
 .job-search-inputs {
   text-align: center;
+  margin-top: 30px;
 }
 
 /* file-path-wrapper */
@@ -260,11 +304,6 @@ table .dashboard, .dashboard th, .dashboard td {
 nav .brand-logo {
   margin-left: 10px;
   font-size: 1.8rem
-  /*font-family: 'Saira Extra Condensed', sans-serif;
-  font-family: 'Cuprum', sans-serif;
-  font-family: 'Bree Serif', serif;
-  font-family: 'Cantora One', sans-serif;
-  font-family: 'Righteous', cursive;*/
 }
 
 .blinking-cursor {
@@ -321,4 +360,33 @@ nav .brand-logo {
   50% {
     color: white;
   }
+}
+
+.logo {
+  text-align: center;
+  font-family: 'Squada One', cursive;
+  color: #26a69a;
+  font-size: 70px;
+}
+
+.login-logo {
+  text-shadow: 2px 2px lightgrey;
+}
+
+.logo-slogan {
+  font-size: 24px;
+}
+
+#status-select {
+  border: 1px solid lightgray;
+}
+
+input:not([type]), input[type=text]:not(.browser-default) {
+  border-bottom: 1px solid lightgray;
+}
+
+#skill-header > h2 {
+  text-align: center;
+  text-transform: capitalize;
+  margin: -10px 0px;
 }

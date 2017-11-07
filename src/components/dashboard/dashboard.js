@@ -143,15 +143,15 @@ class Dashboard extends React.Component {
       <div>
         <Row>
           <Col s={2}>
-            <select className="browser-default" onChange={this.onChangeSortBy}>
+            <select id="status-select" className="browser-default" onChange={this.onChangeSortBy}>
               <option value="status">Status</option>
-              <option value="dateApplied">DateApplied</option>
+              <option value="dateApplied">Date Applied</option>
               <option value="favorite">Favorites</option>
               <option value="location">Location</option>
             </select>
           </Col>
           <Col s={3}>
-            <input type="text" value={this.state.search} onChange={this.updateSearch} placeholder="Search Company" />
+            <input className="job-dashboard-search" type="text" value={this.state.search} onChange={this.updateSearch} placeholder="Search Company" />
           </Col>
         </Row>
         <Table className="dashboard">
@@ -208,7 +208,7 @@ class Dashboard extends React.Component {
                   <option value="wishlist">Wishlist</option>
                   <option value="applied">Applied</option>
                   <option value="phone">Phone</option>
-                  <option value="onSite">OnSite</option>
+                  <option value="onSite">On Site</option>
                   <option value="rejected">Rejected</option>
                   <option value="offer">Offer</option>
                 </Input>

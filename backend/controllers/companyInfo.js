@@ -3,6 +3,7 @@ const axios = require('axios');
 const request = require('request');
 const Twit = require('twit');
 
+// BBB in the end was just too inconsistent to use.
 exports.BBB = (req, res) => {
   axios.get('https://api.bbb.org/api/orgs/search', {
     params: { primaryOrganizationName: req.body.searchTerm },
@@ -24,27 +25,7 @@ exports.BBB = (req, res) => {
       res.send(err);
     });
 };
-exports.getCompanyUrl = (req, res) => {
-  axios.get('https://api.bbb.org/api/orgs/search', {
-    params: { primaryOrganizationName: req.body.searchTerm },
-    headers: { Authorization: `Bearer ${process.env.BBB_TOKEN}` },
-  })
-    .then(data => {
-      if (data.data.SearchResults.find(el => {
-        return el.OrganizationName === req.body.searchTerm;
-      }) !== undefined) {
-        res.send(data.data.SearchResults.find(el => {
-          return el.OrganizationName === req.body.searchTerm.BusinessURLs[0];
-        }));
-      } else {
-        res.send(data.data.SearchResults[0]);
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      res.send(err);
-    });
-};
+
 exports.Glassdoor = (req, res) => {
   axios.get('http://api.glassdoor.com/api/api.htm', {
     params: {
@@ -81,7 +62,6 @@ exports.EDGAR = (req, res) => {
     .then(result => {
       const Symbols = result.data.ResultSet.Result;
       if (Symbols.length === 0) return res.send('This Company is not publically traded.');
-
       function edgarCall(i) {
         axios.get('http://edgaronline.api.mashery.com/v2/corefinancials/qtr', {
           params: {
@@ -100,7 +80,6 @@ exports.EDGAR = (req, res) => {
               const arr = [];
               const array = [];
               for (let i = 0; i < data.data.result.totalrows; i++) {
-
                 arr.push(data.data.result.rows[i].values.filter(item => {
                   if (!obj.symb) {
                     if (item.field === 'primarysymbol') obj.symb = item.value;
@@ -113,17 +92,31 @@ exports.EDGAR = (req, res) => {
                   }
                 }));
               }
-              for (let i = 0; i < arr.length; i++) {
-                obj.period.push(arr[i][0].value);
-                obj.income.push(arr[i][1].value);
-                obj.RD.push(arr[i][2].value);
-                obj.rev.push(arr[i][3].value);
+              if (arr[0].length === 4) {
+                for (let i = 0; i < arr.length; i++) {
+                  obj.period.push(arr[i][0].value);
+                  obj.income.push(arr[i][1].value);
+                  obj.RD.push(arr[i][2].value);
+                  obj.rev.push(arr[i][3].value);
+                }
+                obj.period.reverse();
+                obj.income.reverse();
+                obj.RD.reverse();
+                obj.rev.reverse();
+                return res.send(obj);
               }
-              obj.period.reverse();
-              obj.income.reverse();
-              obj.RD.reverse();
-              obj.rev.reverse();
-              return res.send(obj);
+              if (arr[0].length === 3) {
+                for (let i = 0; i < arr.length; i++) {
+                  obj.period.push(arr[i][0].value);
+                  obj.income.push(arr[i][1].value);
+                  obj.rev.push(arr[i][2].value);
+                }
+                obj.period.reverse();
+                obj.income.reverse();
+                obj.rev.reverse();
+                console.log(obj)
+                return res.send(obj);
+              }
             } else if (++i <= Symbols.length) {
               setTimeout(() => {
                 edgarCall(i);
@@ -170,32 +163,25 @@ exports.fullContact = (req, res) => {
     if (ret.globalRanking) ret.globalRanking = ret.globalRanking.rank;
     return ret;
   };
-  if (req.body.searchTerm === 'google.com') res.send(format(FCGoogle));
-  if (req.body.searchTerm === 'amazon.com') res.send(format(FCAmazon));
-  if (req.body.searchTerm === 'facebook.com') res.send(format(FCFacebook));
-  if (req.body.searchTerm === 'microsoft.com') res.send(format(FCMicrosoft));
-  if (req.body.searchTerm === 'apple.com') res.send(format(FCApple));
-// DISABLED FOR TESTING, ONLY 100 API CALLS A MONTH
-//   axios({
-//     method: 'GET',
-//     url: 'https://api.fullcontact.com/v2/company/lookup.json',
-//     params: {
-//       domain: req.body.searchTerm,
-//       apiKey: process.env.FULLCONTACT_APIKEY,
-//     },
-//   })
-//     .then(data => {
-//       const obj = {};
-//       obj.name = data.data.organization.name;
-//       obj.employees = data.data.organization.approxEmployees;
-//       obj.founded = data.data.organization.founded;
-//       obj.twitter = data.data.socialProfiles.find((el) => { return el.typeId === 'twitter'; });
-//       obj.facebook = data.data.socialProfiles.find((el) => { return el.typeId === 'facebook'; });
-//       obj.linkedIn = data.data.socialProfiles.find((el) => { return el.typeId === 'linkedincompany'; });
-//       obj.angellist = data.data.socialProfiles.find((el) => { return el.typeId === 'angellist'; });
-//       res.send(obj);
-//     })
-//     .catch(err => alert(err));
+// DISABLE FOR LIVE
+  // if (req.body.searchTerm === 'google.com') res.send(format(FCGoogle));
+  // if (req.body.searchTerm === 'amazon.com') res.send(format(FCAmazon));
+  // if (req.body.searchTerm === 'facebook.com') res.send(format(FCFacebook));
+  // if (req.body.searchTerm === 'microsoft.com') res.send(format(FCMicrosoft));
+  // if (req.body.searchTerm === 'apple.com') res.send(format(FCApple));
+// DISABLE FOR TESTING, ONLY 100 API CALLS A MONTH
+  axios({
+    method: 'GET',
+    url: 'https://api.fullcontact.com/v2/company/lookup.json',
+    params: {
+      domain: req.body.searchTerm,
+      apiKey: process.env.FULLCONTACT_APIKEY,
+    },
+  })
+    .then(data => {
+      res.send(format(data.data));
+    })
+    .catch(err => alert(err));
 };
 exports.Twitter = (req, res) => {
   const T = new Twit({
@@ -210,6 +196,7 @@ exports.Twitter = (req, res) => {
     exclude_replies: true,
   };
   T.get('statuses/user_timeline', params, (err, tweets, response) => {
+    console.log(tweets[0].user.screen_name);
     const arr = [];
     if (tweets[0]) {
       for (let i = 0; i < tweets.length; i++) {
@@ -234,7 +221,7 @@ exports.Twitter = (req, res) => {
     }
   });
 };
-
+// This API got cut. It works tho.
 exports.Tradier = (req, res) => {
   axios.get(`http://d.yimg.com/autoc.finance.yahoo.com/autoc?query=${req.body.searchTerm}&lang=en`)
     .then(result => {
@@ -242,7 +229,8 @@ exports.Tradier = (req, res) => {
       if (Symbols.length === 0) return res.send('This Company is not publically traded.');
       axios.get('https://sandbox.tradier.com/v1/markets/history', {
         params: {
-          symbol: Symbols[1].symbol,
+          // maybe not so much this part. Need to make a recursive function like in the EDGAR file, instead of hard coding in [0]
+          symbol: Symbols[0].symbol,
           interval: 'weekly',
         },
         headers: {
@@ -255,7 +243,7 @@ exports.Tradier = (req, res) => {
     })
     .catch(err => console.error(err));
 };
-
+// Testing Data for Full Contact. 100 API calls a month blows.
 const FCGoogle = {
   status: 200,
   requestId: 'a93ca84c-9b59-4c8b-84d7-fd3c1274cef1',

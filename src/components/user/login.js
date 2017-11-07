@@ -80,7 +80,7 @@ class Login extends React.Component {
   closeMergeModal() {
     this.setState({
       gitMergeModal: false,
-    }, () =>  location.reload());
+    }, () => location.reload());
   }
   handleMergePassword(e) {
     e.preventDefault();
@@ -90,10 +90,12 @@ class Login extends React.Component {
   }
   GitMerge(e) {
     e.preventDefault();
-    Auth.gitAuthMerge(this.state.mergePassword, this.state.mergeCred, this.state.mergeEmail, ((err, merged) => {
-      if (err) alert(err);
-      else this.closeMergeModal();
-    }));
+    Auth.gitAuthMerge(
+      this.state.mergePassword,
+      this.state.mergeCred, this.state.mergeEmail, ((err, merged) => {
+        if (err) alert(err);
+        else this.closeMergeModal();
+      }));
   }
 
   // forgot password
@@ -142,12 +144,12 @@ class Login extends React.Component {
       <div className="bg">
         <Row>
           <Col s={4}>
-            <a href="#" className="brand-logo-signup">.apply(me)</a>
+          <h3></h3>
           </Col>
         </Row>
         <div className="container">
           <Card className="sign-in">
-            <h3>Sign In</h3>
+            <h3 className="logo"><span className="login-logo">.apply(me)</span><p className="logo-slogan">Getting you jobs. Making you smarter.</p></h3>
             <Modal isOpen={this.state.gitMergeModal} onRequestClose={this.closeMergeModal}>
               <h3>Looks like your Github Email address already exists.</h3>
               <p>You're seeing this because an account associated with your github email address, {this.state.mergeEmail} already exists within our authentication system. Please enter the password for that email address below, and we'll merge the two accounts.</p>
@@ -180,18 +182,14 @@ class Login extends React.Component {
                   <Button id="signin-button" type="submit">Sign In</Button>
                 </Col>
                 <Col s={3}>
-                  <Button onClick={this.openResetPassModal}>Reset Password</Button>
+                  <a href="#" onClick={this.openResetPassModal}>Forgot your password?</a>
                 </Col>
               </Row>
             </form>
+            <br />
             <Row>
               <Col s={12}>
-                or sign in with
-              </Col>
-            </Row>
-            <Row>
-              <Col s={12}>
-                <Button id="GitAuthButton" onClick={this.gitAuth}>Login using Github</Button>
+                <Button id="GitAuthButton" onClick={this.gitAuth}>Signin using Github</Button>
               </Col>
             </Row>
             <Row>
@@ -207,4 +205,4 @@ class Login extends React.Component {
 }
 export default Login;
 
-// <Button onClick={this.handleTest.bind(this)}>TESTButton</Button>
+// <span id="login-blinking-cursor">|</span>
