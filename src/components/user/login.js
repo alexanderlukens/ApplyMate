@@ -197,7 +197,7 @@ class Login extends React.Component {
             <br />
             <Row>
               <Col s={12}>
-                <Button onClick={this.gitAuth}>Sign In with Github <i className="fa fa-github" /></Button>
+                <Button id="GitAuthButton" onClick={this.gitAuth}>Sign In using Github</Button>
               </Col>
             </Row>
             <Row>
