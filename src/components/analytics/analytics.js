@@ -1,8 +1,6 @@
 import React from 'react';
 import { Bar, Line, Pie, Doughnut, Radar, Polar } from 'react-chartjs-2';
 import { Row, Col, Icon, Card } from 'react-materialize';
-import GithubSkills from '../profile/github-skills';
-
 import JobStatus from './jobstatus';
 import Applications from './applications';
 import GithubSkills from './github-skills';
